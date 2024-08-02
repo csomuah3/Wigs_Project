@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Shape Detector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./static/css/index.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Upload an Image to Detect Face Shape</h1>
+        <form id="uploadForm" action="/" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" id="fileInput" required>
+            <input type="submit" value="Upload">
+        </form>
+        <div id="preview">
+            {% if image_path %}
+            <h2>Image Preview:</h2>
+            <img id="imagePreview" src="{{ image_path }}" alt="Image Preview">
+            {% endif %}
+        </div>
+        {% if face_shape %}
+        <div id="face-shape-result">
+            <h2>Detected Face Shape:</h2>
+            <p>{{ face_shape }}</p>
+        </div>
+        {% endif %}
+        {% if wig_images %}
+        <div id="similar-faces">
+            <h2>Recommended Wigs:</h2>
+            <div class="similar-faces-wrapper">
+                {% for img in wig_images %}
+                <div class="similar-face">
+                    <a href="{{ url_for('static', filename=img) }}" target="_blank">
+                        <img src="{{ url_for('static', filename=img) }}" alt="Wig Image">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function (event)
+        {
+            const file = event.target.files[0];
+            const previewContainer = document.getElementById('preview');
+            const imagePreview = document.getElementById('imagePreview');
+
+            if (file)
+            {
+                const reader = new FileReader();
+                reader.onload = function (e)
+                {
+                    if (imagePreview)
+                    {
+                        imagePreview.src = e.target.result;
+                    } else
+                    {
+                        const imgElement = document.createElement('img');
+                        imgElement.id = 'imagePreview';
+                        imgElement.src = e.target.result;
+                        previewContainer.appendChild(imgElement);
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+
+</html>
