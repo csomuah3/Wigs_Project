@@ -1,5 +1,5 @@
 Face Shape Classification and Wig Recommendation System
-youtube video:
+youtube video:https://youtu.be/CrOTY5pD8w0
 Overview
 
 This project aims to classify face shapes from images and recommend suitable wigs based on the detected face shape. It consists of multiple scripts for different functionalities including image processing, model training, and web application for user interaction.
